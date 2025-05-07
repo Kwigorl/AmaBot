@@ -6,7 +6,8 @@ load_dotenv()
 TOKEN = os.getenv("TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 ROLE_ID = int(os.getenv("ROLE_ID"))
-GUILD_ID = int(os.getenv("GUILD_ID"))client = discord.Client()
+GUILD_ID = int(os.getenv("GUILD_ID"))
+client = discord.Client()
 
 @client.event
 async def on_ready():
