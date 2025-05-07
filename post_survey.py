@@ -7,7 +7,14 @@ TOKEN = os.getenv("TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 ROLE_ID = int(os.getenv("ROLE_ID"))
 GUILD_ID = int(os.getenv("GUILD_ID"))
-client = discord.Client()
+
+intents = discord.Intents.default()
+intents.message_content = True
+intents.reactions = True
+intents.guilds = True
+intents.members = True
+
+client = discord.Client(intents=intents)
 
 @client.event
 async def on_ready():
