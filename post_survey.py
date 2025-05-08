@@ -5,7 +5,9 @@ load_dotenv()
 
 TOKEN = os.getenv("TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
-ROLE_ID = int(os.getenv("ROLE_ID"))
+ROLE1_ID = int(os.getenv("ROLE1_ID"))
+ROLE2_ID = int(os.getenv("ROLE2_ID"))
+ROLE3_ID = int(os.getenv("ROLE3_ID"))
 GUILD_ID = int(os.getenv("GUILD_ID"))
 
 intents = discord.Intents.default()
