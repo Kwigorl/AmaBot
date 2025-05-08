@@ -1,1 +1,34 @@
+name: Post Discord Survey
+
+on:
+  schedule:
+    - cron: '0 10 * * 3'  # Mercredi à 10h UTC
+    - cron: '0 10 * * 5'  # Vendredi à 10h UTC
+    - cron: '0 10 * * 0'  # Dimanche à 10h UTC
+  workflow_dispatch:  # Permet aussi un lancement manuel
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run bot
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          ROLE1_ID: ${{ secrets.ROLE_ID }}
+          ROLE2_ID: ${{ secrets.ROLE_ID }}
+          ROLE3_ID: ${{ secrets.ROLE_ID }}
+          GUILD_ID: ${{ secrets.GUILD_ID }}
+        run: python post_survey.py
 
