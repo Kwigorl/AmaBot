@@ -2,9 +2,9 @@ name: Post Discord Survey
 
 on:
   schedule:
-    - cron: '0 10 * * 3'  # Mercredi à 10h UTC
-    - cron: '0 10 * * 5'  # Vendredi à 10h UTC
-    - cron: '0 10 * * 0'  # Dimanche à 10h UTC
+    - cron: '0 8 * * 3'  # Mercredi à 10h UTC
+    - cron: '0 8 * * 5'  # Vendredi à 10h UTC
+    - cron: '0 8 * * 0'  # Dimanche à 10h UTC
   workflow_dispatch:  # Permet aussi un lancement manuel
 
 jobs:
