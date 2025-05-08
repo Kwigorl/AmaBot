@@ -25,7 +25,7 @@ async def on_ready():
     channel = guild.get_channel(int(CHANNEL_ID))
 
     # Envoie un message avec les réactions
-    message = await channel.send(f"🎲 **Tu viens jouer ce soir ?** <@&{ROLE_ID}>\n\n👍 Oui    👎 Non   ❓ Peut-être\n\u200B")
+    message = await channel.send(f"🎲 **Tu viens jouer ce soir ?** <@&{ROLE1_ID}>\n\n👍 Oui    👎 Non   ❓ Peut-être\n\u200B")
 
     # Ajouter les réactions
     await message.add_reaction('👍')
