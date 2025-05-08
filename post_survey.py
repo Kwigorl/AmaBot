@@ -42,11 +42,11 @@ async def on_ready():
     channel = guild.get_channel(CHANNEL_ID)
 
     message = await channel.send(
-        f"🎲 **Tu viens jouer {time_message} ?** <@&{role_id}>\n\n👍 Oui    👎 Non   ❓ Peut-être\n\u200B"
+        f"🎲 **Tu viens jouer {time_message} ?** <@&{role_id}>\n\n☝️ Oui    ❌ Non   ❓ Peut-être\n\u200B"
     )
 
-    await message.add_reaction('👍')
-    await message.add_reaction('👎')
+    await message.add_reaction('☝️')
+    await message.add_reaction('❌')
     await message.add_reaction('❓')
 
     await client.close()
