@@ -1,9 +1,6 @@
 import discord
 import os
 import datetime
-from dotenv import load_dotenv
-
-load_dotenv()
 
 TOKEN = os.getenv("TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
@@ -24,25 +21,28 @@ client = discord.Client(intents=intents)
 async def on_ready():
     print(f'Bot connecté en tant que {client.user}')
 
-    # Récupère le jour de la semaine (0 = lundi, 1 = mardi, ..., 6 = dimanche)
-    today = datetime.datetime.now().weekday()
+    # Déterminer le jour actuel
+    today = datetime.datetime.utcnow().weekday()  # 0 = Lundi
 
     if today == 2:  # Mercredi
         role_id = ROLE1_ID
+        time_message = "ce soir"
     elif today == 4:  # Vendredi
         role_id = ROLE2_ID
+        time_message = "ce soir"
     elif today == 6:  # Dimanche
         role_id = ROLE3_ID
+        time_message = "cet après-midi"
     else:
-        print("Ce n’est ni mercredi, ni vendredi, ni dimanche — aucun message envoyé.")
+        print("Ce jour ne correspond à aucun rôle prévu.")
         await client.close()
         return
 
-    guild = client.get_guild(int(GUILD_ID))
-    channel = guild.get_channel(int(CHANNEL_ID))
+    guild = client.get_guild(GUILD_ID)
+    channel = guild.get_channel(CHANNEL_ID)
 
     message = await channel.send(
-        f"🎲 [SONDAGE] **Tu viens jouer aujourd'hui ?** <@&{role_id}>\n\n👍 Oui    👎 Non   ❓ Peut-être\n\u200B"
+        f"🎲 **Tu viens jouer {time_message} ?** <@&{role_id}>\n\n👍 Oui    👎 Non   ❓ Peut-être\n\u200B"
     )
 
     await message.add_reaction('👍')
