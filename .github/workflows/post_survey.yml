@@ -1,34 +1,33 @@
-name: Post Discord Survey
+name: Post Survey
 
 on:
   schedule:
-    - cron: '0 8 * * 3'  # Mercredi à 10h UTC
-    - cron: '0 8 * * 5'  # Vendredi à 10h UTC
-    - cron: '0 8 * * 0'  # Dimanche à 10h UTC
-  workflow_dispatch:  # Permet aussi un lancement manuel
+    - cron: '0 10 * * 3'  # mercredi à 10h UTC
+    - cron: '0 10 * * 5'  # vendredi à 10h UTC
+    - cron: '0 10 * * 0'  # dimanche à 10h UTC
 
 jobs:
-  run-bot:
+  post-survey:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+    - name: Install dependencies
+      run: pip install -r requirements.txt
 
-      - name: Run bot
-        env:
-          TOKEN: ${{ secrets.TOKEN }}
-          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
-          ROLE1_ID: ${{ secrets.ROLE_ID }}
-          ROLE2_ID: ${{ secrets.ROLE_ID }}
-          ROLE3_ID: ${{ secrets.ROLE_ID }}
-          GUILD_ID: ${{ secrets.GUILD_ID }}
-        run: python post_survey.py
-
+    - name: Run the survey script
+      run: python post_survey.py
+      env:
+        TOKEN: ${{ secrets.TOKEN }}
+        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+        GUILD_ID: ${{ secrets.GUILD_ID }}
+        ROLE1_ID: ${{ secrets.ROLE1_ID }}
+        ROLE2_ID: ${{ secrets.ROLE2_ID }}
+        ROLE3_ID: ${{ secrets.ROLE3_ID }}
