@@ -1,4 +1,4 @@
-name: Vérification Maîtres des clés
+name: Vérification Maitres des clés
 
 on:
   schedule:
@@ -23,11 +23,11 @@ jobs:
       - name: Installer les dépendances
         run: pip install -r requirements.txt
 
-      - name: Lancer le script check_maitre_cle
+      - name: Lancer le script check_maitres_cle
         env:
           TOKEN: ${{ secrets.TOKEN }}
           GUILD_ID: ${{ secrets.GUILD_ID }}
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
           ALERT_CHANNEL_ID: ${{ secrets.ALERT_CHANNEL_ID }}
           ROLE_MAITRE_ID: ${{ secrets.ROLE_MAITRE_ID }}
-        run: python check_maitre_cle.py
+        run: python check_maitres_cle.py
