@@ -1,0 +1,33 @@
+name: Vérification Maîtres des clés
+
+on:
+  schedule:
+    - cron: '0 17 * * 3'  # Mercredi à 19h (UTC = 17h)
+    - cron: '0 17 * * 5'  # Vendredi à 19h
+    - cron: '0 12 * * 0'  # Dimanche à 14h
+  workflow_dispatch:
+
+jobs:
+  check-maitre:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cloner le dépôt
+        uses: actions/checkout@v3
+
+      - name: Configurer Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Installer les dépendances
+        run: pip install -r requirements.txt
+
+      - name: Lancer le script check_maitre_cle
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          GUILD_ID: ${{ secrets.GUILD_ID }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          ALERT_CHANNEL_ID: ${{ secrets.ALERT_CHANNEL_ID }}
+          ROLE_MAITRE_ID: ${{ secrets.ROLE_MAITRE_ID }}
+        run: python check_maitre_cle.py
