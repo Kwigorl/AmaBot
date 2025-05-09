@@ -42,7 +42,7 @@ async def on_ready():
     channel = guild.get_channel(CHANNEL_ID)
 
     message = await channel.send(
-        f"🎲 **Qui vient jouer {time_message} ?** <@&{role_id}>\n\n☝️ Moi    ❌ Pas moi   ❓ Peut-être moi\n\u200B"
+        f"🎲 **Qui vient jouer {time_message} ?** <@&{role_id}>\n\n☝️ Moi    🤔 Peut-être moi    ❌ Pas moi\n\u200B"
     )
 
     await message.add_reaction('☝️')
