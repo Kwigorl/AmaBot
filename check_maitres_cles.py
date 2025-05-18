@@ -51,7 +51,7 @@ async def on_ready():
 
     if not maitres_present:
         await alert_channel.send(
-            f"⚠️ Aucun <@&{ROLE_MAITRE_ID}> n'a indiqué sa présence à la séance du jour ! → {survey_message.jump_url}"
+            f"⚠️ Aucun <@&{ROLE_MAITRE_ID}> n'a indiqué sa présence à la séance du jour !"
         )
     else:
         print("Au moins un Maitre des clés a répondu.")
