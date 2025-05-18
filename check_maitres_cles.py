@@ -26,6 +26,7 @@ async def on_ready():
 
     today = datetime.datetime.utcnow().date()
 
+    survey_message = None
     async for message in channel.history(limit=100):
         if message.created_at.date() == today and "Qui vient jouer" in message.content:
             survey_message = message
@@ -38,7 +39,7 @@ async def on_ready():
     # Chercher les utilisateurs ayant réagi avec "☝️"
     response_users = set()
     for reaction in survey_message.reactions:
-        if str(reaction.emoji) == "☝":  # ☝️
+        if reaction.emoji in ("☝", "☝️"):
             async for user in reaction.users():
                 if not user.bot:
                     response_users.add(user.id)
