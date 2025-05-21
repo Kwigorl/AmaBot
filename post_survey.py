@@ -46,8 +46,8 @@ async def on_ready():
     )
 
     await message.add_reaction('☝️')
+    await message.add_reaction('🤔')
     await message.add_reaction('❌')
-    await message.add_reaction('❓')
 
     await client.close()
 
