@@ -3,9 +3,9 @@ name: Post Survey
 on:
   workflow_dispatch:  # <-- Ajoute ça pour le lancer manuellement
   schedule:
-    - cron: '0 8 * * 3'  # mercredi à 10h UTC
-    - cron: '0 8 * * 5'  # vendredi à 10h UTC
-    - cron: '0 8 * * 0'  # dimanche à 10h UTC
+    - cron: '0 5 * * 3'  # mercredi à 7h UTC
+    - cron: '0 5 * * 5'  # vendredi à 7h UTC
+    - cron: '0 5 * * 0'  # dimanche à 7h UTC
 
 jobs:
   post-survey:
