@@ -1,11 +1,17 @@
 name: Vérification Maitres des clés
 
 on:
-  schedule:
-    - cron: '0 16 * * 3'  # Mercredi à 18h (UTC = 17h)
-    - cron: '0 16 * * 5'  # Vendredi à 18h
-    - cron: '0 10 * * 0'  # Dimanche à 12h
   workflow_dispatch:
+  schedule:
+    # Mercredi & Vendredi – 18h heure française
+    - cron: '0 16 * * 3'  # été
+    - cron: '0 17 * * 3'  # hiver
+    - cron: '0 16 * * 5'  # été
+    - cron: '0 17 * * 5'  # hiver
+
+    # Dimanche – 12h heure française
+    - cron: '0 10 * * 0'  # été
+    - cron: '0 11 * * 0'  # hiver
 
 jobs:
   check-maitre:
@@ -22,6 +28,34 @@ jobs:
 
       - name: Installer les dépendances
         run: pip install -r requirements.txt
+
+      # 🕒 Garde-fou horaire (évite tout doublon)
+      - name: Vérifier l’heure locale (Europe/Paris)
+        run: |
+          LOCAL_TIME=$(TZ=Europe/Paris date +"%Y-%m-%d %H:%M")
+          HOUR=$(TZ=Europe/Paris date +%H)
+
+          echo "Heure locale Paris : $LOCAL_TIME"
+
+          case "$(date +%u)" in
+            3|5)
+              EXPECTED=18
+              ;;
+            7)
+              EXPECTED=12
+              ;;
+            *)
+              echo "Jour non prévu → sortie"
+              exit 0
+              ;;
+          esac
+
+          if [ "$HOUR" != "$EXPECTED" ]; then
+            echo "❌ Pas la bonne heure ($EXPECTED h attendue) → sortie"
+            exit 0
+          fi
+
+          echo "✅ Heure correcte → exécution"
 
       - name: Lancer le script check_maitres_cles
         env:
