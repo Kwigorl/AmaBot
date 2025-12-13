@@ -1,34 +1,50 @@
 name: Post Survey
 
 on:
-  workflow_dispatch:  # <-- Ajoute ça pour le lancer manuellement
+  workflow_dispatch:
   schedule:
-    - cron: '0 5 * * 3'  # mercredi à 7h UTC
-    - cron: '0 5 * * 5'  # vendredi à 7h UTC
-    - cron: '0 5 * * 0'  # dimanche à 7h UTC
+    # Heure d’été : 05:00 UTC = 07:00 Paris
+    - cron: '0 5 * * 3'
+    - cron: '0 5 * * 5'
+    - cron: '0 5 * * 0'
+
+    # Heure d’hiver : 06:00 UTC = 07:00 Paris
+    - cron: '0 6 * * 3'
+    - cron: '0 6 * * 5'
+    - cron: '0 6 * * 0'
 
 jobs:
   post-survey:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt
 
-    - name: Run the survey script
-      run: python post_survey.py
-      env:
-        TOKEN: ${{ secrets.TOKEN }}
-        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
-        GUILD_ID: ${{ secrets.GUILD_ID }}
-        ROLE1_ID: ${{ secrets.ROLE1_ID }}
-        ROLE2_ID: ${{ secrets.ROLE2_ID }}
-        ROLE3_ID: ${{ secrets.ROLE3_ID }}
+      - name: Check local time (Europe/Paris)
+        run: |
+          LOCAL_TIME=$(TZ=Europe/Paris date +"%Y-%m-%d %H:%M")
+          HOUR=$(TZ=Europe/Paris date +%H)
+          echo "Heure locale Paris : $LOCAL_TIME"
+
+          if [ "$HOUR" != "07" ]; then
+            echo "❌ Pas 7h → on quitte"
+            exit 0
+          fi
+
+          echo "✅ 7h pile → on poste"
+
+      - name: Run the survey script
+        run: python post_survey.py
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          GUILD_ID: ${{ secrets.GUILD_ID }}
+          ROLE1_ID: ${{ secrets.ROLE1_ID }}
+          ROLE2_ID: ${{ secrets.ROLE2_ID }}
+          ROLE3_ID: ${{ secrets.ROLE3_ID }}
