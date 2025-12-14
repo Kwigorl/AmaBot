@@ -3,41 +3,25 @@ name: Post Survey
 on:
   workflow_dispatch:
   schedule:
-    # Heure d’été : 05:00 UTC = 07:00 Paris
-    - cron: '0 5 * * 3'
-    - cron: '0 5 * * 5'
-    - cron: '0 5 * * 0'
-
-    # Heure d’hiver : 06:00 UTC = 07:00 Paris
-    - cron: '0 6 * * 3'
-    - cron: '0 6 * * 5'
-    - cron: '0 6 * * 0'
+    - cron: '0 6 * * 3'  # Mercredi à 7h (heure d’hiver)
+    - cron: '0 6 * * 5'  # Vendredi à 7h (heure d’hiver)
+    - cron: '0 6 * * 0'  # Dimanche à 7h (heure d’hiver)
 
 jobs:
   post-survey:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - run: pip install -r requirements.txt
-
-      - name: Check local time (Europe/Paris)
-        run: |
-          LOCAL_TIME=$(TZ=Europe/Paris date +"%Y-%m-%d %H:%M")
-          HOUR=$(TZ=Europe/Paris date +%H)
-          echo "Heure locale Paris : $LOCAL_TIME"
-
-          if [ "$HOUR" != "07" ]; then
-            echo "❌ Pas 7h → on quitte"
-            exit 0
-          fi
-
-          echo "✅ 7h pile → on poste"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
       - name: Run the survey script
         run: python post_survey.py
