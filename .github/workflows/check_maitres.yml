@@ -2,9 +2,9 @@ name: Vérification Maitres des clés
 
 on:
   schedule:
-    - cron: '0 17 * * 3'  # Mercredi à 18h (heure d’hiver)
-    - cron: '0 17 * * 5'  # Vendredi à 18h (heure d’hiver)
-    - cron: '0 11 * * 0'  # Dimanche à 12h (heure d’hiver)
+    - cron: '0 16 * * 3'  # Mercredi à 18h (heure d’hiver)
+    - cron: '0 16 * * 5'  # Vendredi à 18h (heure d’hiver)
+    - cron: '0 16 * * 0'  # Dimanche à 12h (heure d’hiver)
   workflow_dispatch:
 
 jobs:
