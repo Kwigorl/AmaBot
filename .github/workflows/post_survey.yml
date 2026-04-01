@@ -3,9 +3,9 @@ name: Post Survey
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * 3'  # Mercredi à 7h (heure d’hiver)
-    - cron: '0 6 * * 5'  # Vendredi à 7h (heure d’hiver)
-    - cron: '0 6 * * 0'  # Dimanche à 7h (heure d’hiver)
+    - cron: '0 5 * * 3'  # Mercredi à 7h (heure d’hiver)
+    - cron: '0 5 * * 5'  # Vendredi à 7h (heure d’hiver)
+    - cron: '0 5 * * 0'  # Dimanche à 7h (heure d’hiver)
 
 jobs:
   post-survey:
